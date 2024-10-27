@@ -64,7 +64,7 @@ const sendMail = (email, f_name, l_name, otp) => {
         }
     });
 
-}
+};
 
 
 const registerUser = asyncHandler(async (req,res) =>{
@@ -85,10 +85,10 @@ const registerUser = asyncHandler(async (req,res) =>{
         m_mail,
     });
 
-    // if(checkMail){
-    //     res.status(401);
-    //     throw new Error("Email already Exists!")
-    // }
+    if(checkMail){
+        res.status(401);
+        throw new Error("Email already Exists!")
+    }
 
     const otp = generateOTP();
 
@@ -113,6 +113,32 @@ const registerUser = asyncHandler(async (req,res) =>{
 
 });
 
+// Login the user
+
+const loginUser = asyncHandler(async(req,res) => {
+    const {m_mail, password} = req.body;
+    // Check if user is entering the data or not
+    if(!m_mail || !password){
+      res.status(400);
+      throw new Error("Please Enter Credentials!");
+    }
+    // check if email is already existed or not
+    const checkEmail = await userModel.findOne({m_mail})
+    // throw error if user Existed
+    if(!checkEmail){
+      res.status(404)
+      throw new Error("Invalid Email / Phone");
+    }
+
+    if(checkEmail && (await bcrypt.compare(password, checkEmail.password))){
+      res.send(checkEmail)
+    }else{
+      res.status(401);
+      throw new Error("Invalid Password");
+    }
+});
+
 module.exports = {
     registerUser,
-}
+    loginUser,
+};
