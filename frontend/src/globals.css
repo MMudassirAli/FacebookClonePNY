@@ -1,8 +1,8 @@
 :root{
     --text-sm : 0.7rem;
-    --text-md : 0.9rem;
+    --text-md : 0.8rem;
     --bg-blue : #1877F2;
-    --bg-green : #36A420;
+    --bg-green : #00A400;
     --bg-light-gray : #F2F4F7;
 }
 .bg-blue{
@@ -40,4 +40,7 @@
 }
 .outline-blue:hover{
     border: 2px solid black !important;
+}
+.rounded-full{
+    clip-path: circle() !important;
 }
