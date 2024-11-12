@@ -1,10 +1,34 @@
 import React, { useState } from 'react';
-import {Button, Card, Link} from "@mui/material";
+import {Button, Card} from "@mui/material";
+import {Link, useNavigate} from "react-router-dom";
 import { Form } from 'react-bootstrap';
 import { useEffect } from 'react';
 import axios from "axios";
+import {useDispatch, useSelector} from "react-redux" ;
+import { registerUserData, userReset } from '../../features/Users/userSlice';
+import toast from "react-hot-toast";
+import {ProgressBar} from "react-loader-spinner";
 
 const RegisterForm = () => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate();
+
+    // Get the data from the Store
+    const {userMessage, userError, userLoading, userSuccess} = useSelector((state)=>state.user)
+
+    useEffect(()=>{
+        if(userError){
+            toast.error(userMessage)
+        }
+
+        if(userSuccess){
+            navigate("/otp");
+            toast.success("Please Verify OTP");
+        }
+
+
+        dispatch(userReset());
+    },[userError,dispatch,userSuccess])
 
     const [months] = useState([
         'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec',
@@ -46,6 +70,12 @@ const RegisterForm = () => {
 
     const handleRegister = async(e) => {
         e.preventDefault();
+
+        const userData = {
+            f_name, l_name, m_mail, password, gender, dob: `${date}-${month}-${year}`
+        }
+
+        dispatch(registerUserData(userData))
         // const response = await fetch("http://localhost:3001/api/user/register-user",{
         //     method: 'POST',
         //     headers: {
@@ -60,10 +90,12 @@ const RegisterForm = () => {
 
         //Send Request through Axios
 
-        const dataForBE = {f_name,l_name,gender,m_mail,password,dob:`${date}-${month}-${year}`};
+        // const dataForBE = {f_name,l_name,gender,m_mail,password,dob:`${date}-${month}-${year}`};
 
-        const response = await axios.post('http://localhost:3001/api/user/register-user',dataForBE);
-        console.log(response.data)
+        // const response = await axios.post('http://localhost:3001/api/user/register-user',dataForBE);
+
+        // localStorage.setItem('user',JSON.stringify(response.data))
+        
     }
 
   return (
@@ -131,8 +163,18 @@ const RegisterForm = () => {
             <Form.Control type='password' placeholder='New password' name='password' value={password} onChange={handleChange} className='mt-2 shadow-0 outline-blue'  />
             <p className="text-secondary text-sm mt-3">People who use our service may have uploaded your contact information to Facebook. Learn more.</p>
             <p className="text-secondary text-sm mt-2">By clicking Sign Up, you agree to our Terms, Privacy Policy and Cookies Policy. You may receive SMS notifications from us and can opt out at any time.</p>
-            <Button onClick={handleRegister} variant='contained' className='bg-green text-white fw-bolder p-1 d-block mx-auto w-50 fs-6'>
-            Sign Up
+            <Button disabled={userLoading} onClick={handleRegister} variant='contained' className={`bg-green text-white fw-bolder p-1 d-block mx-auto w-50 fs-6 ${userLoading && "btn-disabled"}`}>
+            {
+                userLoading ? (<ProgressBar
+                visible={true}
+                height="30"
+                width="100"
+                color="#4fa94d"
+                ariaLabel="progress-bar-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+                />) : "Sign Up"
+            }
             </Button>
             <Link to='/' className="text-decoration-none text-primary d-block text-center mt-3 mb-2 fw-medium">
             Already have an account?

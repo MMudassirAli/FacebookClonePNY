@@ -44,3 +44,11 @@
 .rounded-full{
     clip-path: circle() !important;
 }
+.btn-disabled{
+    background-color: gray !important ;
+}
+.otp input{
+    /* padding: 1rem;
+    width: 50px; */
+    border: 2px groove lightgray;
+}

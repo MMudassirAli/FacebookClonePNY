@@ -1,10 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {Col, Container, Row} from "react-bootstrap";
 import logo from "../../assets/images/Facebook-Logo.png";
 import "../../components/authentication/utils/auth.css";
 import LoginForm from '../../components/authentication/LoginForm';
+import { useSelector } from "react-redux";
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+
+  const {user} = useSelector((state)=>state.user);
+  const navigate = useNavigate();
+
+  useEffect(()=>{
+    if(user){
+      navigate("/home");
+    }
+  },[])
+
   return (
     <>
     <Container className='col-xl-9 col-lg-8 col-md-9 col-sm-10 mx-auto d-flex justify-content-center align-items-center height-70'>

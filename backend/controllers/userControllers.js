@@ -138,7 +138,38 @@ const loginUser = asyncHandler(async(req,res) => {
     }
 });
 
+
+const verifyOTP = asyncHandler(async(req,res)=>{
+  const user_id = req.params.user_id;
+  const {otp} = req.body;
+
+  const finduser = await userModel.findById(user_id);
+
+  if(!finduser){
+    res.status(404);
+    throw new Error("User Not Found")
+  }
+
+  if(!otp){
+    res.status(404);
+    throw new Error("Please Enter the OTP");
+
+  }
+
+  if(finduser.otp == otp){
+    finduser.otp = null;
+    await finduser.save();
+    res.send(finduser);
+  }else{
+    res.status(401);
+    throw new Error("Invalid OTP");
+  }
+
+
+});
+
 module.exports = {
     registerUser,
     loginUser,
+    verifyOTP,
 };
