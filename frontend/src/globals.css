@@ -5,6 +5,9 @@
     --bg-green : #00A400;
     --bg-light-gray : #F2F4F7;
 }
+body{
+    overflow: hidden !important ;
+}
 .bg-blue{
     background-color: var(--bg-blue) !important;
 }
@@ -51,4 +54,48 @@
     /* padding: 1rem;
     width: 50px; */
     border: 2px groove lightgray;
+}
+.outline-0{
+    outline-width: 0 !important;
+}
+.bg-lights{
+    background-color: #F0F2F5 !important;
+}
+.w-35{
+    width: 35% !important;
+}
+.w-40{
+    width: 40% !important;
+}
+.w-70{
+    width: 70% !important;
+}
+.w-60{
+    width: 60% !important;
+}
+.w-max{
+    width: max-content !important;
+}
+.chori{
+    width: 240px;
+}
+.sidebar-list:hover{
+    background-color: lightgrey !important;
+}
+.dark-grey{
+    background-color: lightgrey !important;
+}
+.cursor-pointer{
+    cursor: pointer !important;
+}
+.text-area::placeholder{
+    font-size: 1.2rem !important;
+}
+.text-area{
+    font-size: 1.2rem !important;
+    resize: none !important;
+}
+.type-radio{
+    height: 17px !important;
+    width: 17px !important;
 }

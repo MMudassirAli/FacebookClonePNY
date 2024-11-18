@@ -68,7 +68,11 @@ export const userSlice = createSlice({
             state.userLoading = false
             state.userError = false
             state.userSuccess = true
-            state.user = action.payload
+            state.user = {
+                ...state.user,
+                ...action.payload, // Merge new data, including `otp: null`
+            };
+            localStorage.setItem('user', JSON.stringify(state.user));
         })
     },
 });

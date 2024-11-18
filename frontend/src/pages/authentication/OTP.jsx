@@ -9,11 +9,18 @@ import {useNavigate} from "react-router-dom";
 
 const OTP = () => {
     const [otp, setOtp] = useState('');
-    const {user, userError, userMessage, userSuccess, userLoading} = useSelector((state)=>state.user)
+    const {user, userError, userMessage, userSuccess} = useSelector((state)=>state.user)
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     useEffect(()=>{
+        if(user?.otp == null){
+            navigate("/");
+        }
+    },[])
+
+    useEffect(()=>{
+
         if(userError){
             toast.error(userMessage);
         }
@@ -25,13 +32,13 @@ const OTP = () => {
 
         dispatch(userReset())
 
-    },[userError,userSuccess,dispatch])
-    
+    },[userError,userSuccess,dispatch]);
+
     const verifyOTP = () => {
         const otpData = {otp, user_id : user?._id};
 
         dispatch(verifyOtpData(otpData))
-    }
+    };
 
 
   return (
@@ -44,7 +51,7 @@ const OTP = () => {
         inputType='tel'
     inputStyle={{ padding:"1rem", width: "50px", margin: "auto", borderRadius: "5px" }}
       value={otp}
-      onChange={(value) => setOtp(value)}
+      onChange={setOtp}
       numInputs={6}
       renderSeparator={<span></span>}
       renderInput={(props) => <input {...props} />}

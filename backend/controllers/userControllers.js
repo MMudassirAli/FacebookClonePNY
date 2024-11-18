@@ -158,7 +158,7 @@ const verifyOTP = asyncHandler(async(req,res)=>{
 
   if(finduser.otp == otp){
     finduser.otp = null;
-    await finduser.save();
+    await finduser.save();  
     res.send(finduser);
   }else{
     res.status(401);
