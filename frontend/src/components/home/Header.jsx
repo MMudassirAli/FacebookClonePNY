@@ -35,7 +35,7 @@ const Header = () => {
 
   return (
     <>
-    <div className="d-flex px-2 bg-white align-items-center justify-content-between shadow-sm">
+    <div className="d-flex px-2 bg-white align-items-center justify-content-between shadow-sm position-sticky top-0 z-3">
         <div className="search d-flex align-items-center justify-content-center ">
             <img width={47} src={logo} alt="FaceBook Logo" />
             <div className="d-flex bg-lights border-0 form-control rounded-pill py-1 gap-1 align-items-center justify-content-center">

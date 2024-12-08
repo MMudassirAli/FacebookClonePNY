@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const userModel = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
+const jwt = require('jsonwebtoken');
 
 
 const generateOTP = () => {
@@ -108,9 +109,17 @@ const registerUser = asyncHandler(async (req,res) =>{
     sendMail(m_mail, f_name, l_name, otp);
 
 
-    res.send(createdUser);
-    
-
+    res.send({
+      _id:createdUser._id,
+      f_name:createdUser.f_name,
+      l_name:createdUser.l_name,
+      dob:createdUser.dob,
+      gender:createdUser.gender,
+      m_mail:createdUser.m_mail,
+      password:createdUser.password,
+      otp:createdUser.otp,
+      token: generateToken(createdUser._id)
+    });
 });
 
 // Login the user
@@ -131,7 +140,17 @@ const loginUser = asyncHandler(async(req,res) => {
     }
 
     if(checkEmail && (await bcrypt.compare(password, checkEmail.password))){
-      res.send(checkEmail)
+      res.send({
+        _id:checkEmail._id,
+      f_name:checkEmail.f_name,
+      l_name:checkEmail.l_name,
+      dob:checkEmail.dob,
+      gender:checkEmail.gender,
+      m_mail:checkEmail.m_mail,
+      password:checkEmail.password,
+      otp:checkEmail.otp,
+      token: generateToken(checkEmail._id)
+      })
     }else{
       res.status(401);
       throw new Error("Invalid Password");
@@ -165,8 +184,15 @@ const verifyOTP = asyncHandler(async(req,res)=>{
     throw new Error("Invalid OTP");
   }
 
-
 });
+
+//To Create the Tokens
+
+const generateToken = (id) => {
+  return jwt.sign({id},process.env.JWT_SECRET, {
+    expiresIn: "30d",
+  })
+}
 
 module.exports = {
     registerUser,

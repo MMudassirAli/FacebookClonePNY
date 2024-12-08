@@ -14,7 +14,7 @@ const Sidebar = () => {
 
   return (
     <>
-    <div className="height-100 bg-lights">
+    <div className="height-100 bg-lights sidebar">
         <ul className="list-unstyled d-flex flex-column">
             <li className='d-flex cursor-pointer align-items-center py-2 px-3 gap-3 sidebar-list rounded-2'>
             <div className="icon-image">
@@ -22,7 +22,7 @@ const Sidebar = () => {
                         </div>
                         <div className="text">
                             <Typography variant='p' className='text-md fw-semibold'>
-                            {username.length > 3 ? username.slice(0,3) + " ..." : user?.l_name}
+                            {username}
                             </Typography>
                         </div>
             </li>

@@ -5,8 +5,14 @@
     --bg-green : #00A400;
     --bg-light-gray : #F2F4F7;
 }
+.sidebar{
+    position: sticky !important;
+    top: 50px !important;
+    overflow-y: scroll !important;
+}
 body{
-    overflow: hidden !important ;
+    overflow-y: scroll !important;
+    overflow-x: hidden !important;
 }
 .bg-blue{
     background-color: var(--bg-blue) !important;
@@ -98,4 +104,13 @@ body{
 .type-radio{
     height: 17px !important;
     width: 17px !important;
+}
+.transition-sm{
+    transition: all 0.9s !important;
+}
+.transition-md{
+    transition: all 0.5s !important;
+}
+.transition-lg{
+    transition: all 0.2s !important;
 }

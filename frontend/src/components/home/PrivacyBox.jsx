@@ -3,12 +3,15 @@ import React from 'react'
 import { BsArrowLeft } from "react-icons/bs";
 import { FaGlobeAmericas, FaLock, FaUserFriends } from 'react-icons/fa';
 
-const PrivacyBox = () => {
+const PrivacyBox = ({showPrivacyBox,setShowPrivacyBox,visibility,setVisibility}) => {
   return (
     <>
-    <div className="position-absolute p-3 card top-0 shadow-lg end-0 h-100 border-0 w-100">
+    <div style={{ 
+        transform: `${showPrivacyBox ? "translateX(0)" : "translateX(100%)"}`,
+        opacity: `${showPrivacyBox ? "1" : "0"}`
+     }} className="position-absolute transition-lg p-3 card top-0 shadow-lg end-0 h-100 border-0 w-100">
         <div className="d-flex align-items-center p-1">
-            <div className="p-2 rounded-full dark-grey d-flex align-items-center justify-content-center position-absolute">
+            <div onClick={()=>setShowPrivacyBox(false)} className="p-2 rounded-full cursor-pointer dark-grey d-flex align-items-center justify-content-center position-absolute">
             <BsArrowLeft/>
             </div>
         <Typography variant='p' className='fw-semibold w-100 text-center' >Post Audience</Typography>
@@ -28,7 +31,7 @@ const PrivacyBox = () => {
                 <Typography variant='p' className='text-md text-secondary m-0'>Anyone on or off Facebook</Typography>
             </div>
             </div>
-            <input className='form-check type-radio' name='type' type='radio' />
+            <input onChange={(e)=>setVisibility(e.target.value)} value="public" className='form-check type-radio cursor-pointer' name='type' type='radio' />
         </div>
         <div className="d-flex my-3 justify-content-between align-items-center">
             <div className="d-flex gap-2 align-items-center">
@@ -40,7 +43,7 @@ const PrivacyBox = () => {
                 <Typography variant='p' className='text-md text-secondary m-0'>Your friends on Facebook.</Typography>
             </div>
             </div>
-            <input className='form-check type-radio' name='type' type='radio' />
+            <input onChange={(e)=>setVisibility(e.target.value)} value="friends" className='form-check type-radio cursor-pointer' name='type' type='radio' />
         </div>
         <div className="d-flex my-3 justify-content-between align-items-center">
             <div className="d-flex gap-2 align-items-center">
@@ -51,7 +54,7 @@ const PrivacyBox = () => {
                 <Typography variant='h6' className='fw-semibold text-md m-0'>Only me</Typography>
             </div>
             </div>
-            <input className='form-check type-radio' name='type' type='radio' />
+            <input onChange={(e)=>setVisibility(e.target.value)} value="only_me" className='form-check type-radio cursor-pointer' name='type' type='radio' />
         </div>
     </div>
     </>

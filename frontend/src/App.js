@@ -7,6 +7,7 @@ import Register from './pages/authentication/Register';
 import {Toaster} from "react-hot-toast";
 import Home from './pages/home/Home';
 import OTP from './pages/authentication/OTP';
+import "react-loading-skeleton/dist/skeleton.css";
 
 const App = () => {
   return (

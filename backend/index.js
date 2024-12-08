@@ -7,6 +7,7 @@ const errorHandler = require("./middlewares/errorMiddlewares");
 const connectDB = require("./config/connect");
 const app = express();
 const cors = require('cors');
+const postRouter = require("./routes/postRoutes");
 app.use(cors());
 connectDB();
 
@@ -15,7 +16,8 @@ app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 
 app.use("/api/user/", userRouter);
-app.use("/api/user/", userRouter);
+app.use("/api/posts/", postRouter);
+
 app.use(errorHandler);
 
 app.listen(process.env.PORT,()=>console.log(`Server started on port:${process.env.PORT.yellow}`));
