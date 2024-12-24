@@ -114,3 +114,6 @@ body{
 .transition-lg{
     transition: all 0.2s !important;
 }
+.new-request:hover{
+    background-color: #E6E8EA !important;
+}

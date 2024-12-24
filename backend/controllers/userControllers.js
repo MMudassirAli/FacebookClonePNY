@@ -186,6 +186,11 @@ const verifyOTP = asyncHandler(async(req,res)=>{
 
 });
 
+const getAllUsers = asyncHandler(async(req,res)=>{
+  const getUsers = await userModel.find();
+  res.send(getUsers);
+})
+
 //To Create the Tokens
 
 const generateToken = (id) => {
@@ -198,4 +203,5 @@ module.exports = {
     registerUser,
     loginUser,
     verifyOTP,
+    getAllUsers,
 };

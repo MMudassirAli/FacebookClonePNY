@@ -1,5 +1,5 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
-import { registerUser, verifyOTP } from "./userService";
+import { getAllUsers, registerUser, verifyOTP } from "./userService";
 
 const checkUser = JSON.parse(localStorage.getItem("user"));
 
@@ -9,6 +9,7 @@ const initialState = {
     userError: false,
     userSuccess: false,
     userMessage: "",
+    allUsers: [],
 };
 
 // Get the function from the Service
@@ -24,6 +25,14 @@ export const registerUserData = createAsyncThunk("register-User", async(userData
 export const verifyOtpData = createAsyncThunk("verify-OTP", async(otpData, thunkAPI)=>{
     try {
         return await verifyOTP(otpData);
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.response.data.error)
+    }
+});
+
+export const getAllUsersData = createAsyncThunk("get-all-users",async(_,thunkAPI)=>{
+    try {
+        return await getAllUsers();    
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response.data.error)
     }
@@ -73,6 +82,20 @@ export const userSlice = createSlice({
                 ...action.payload, // Merge new data, including `otp: null`
             };
             localStorage.setItem('user', JSON.stringify(state.user));
+        })
+        .addCase(getAllUsersData.pending, (state,action)=>{
+            state.userLoading = true
+        })
+        .addCase(getAllUsersData.rejected, (state,action)=>{
+            state.userLoading = false
+            state.userError = true
+            state.userMessage = action.payload
+        })
+        .addCase(getAllUsersData.fulfilled, (state,action)=>{
+            state.userLoading = false
+            state.userError = false
+            state.userSuccess = true
+            state.allUsers = action.payload
         })
     },
 });

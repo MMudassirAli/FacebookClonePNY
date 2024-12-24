@@ -16,4 +16,9 @@ export const verifyOTP = async(otpData) => {
     const response = await axios.post(`${base_url}/verify-otp/${otpData.user_id}`, otpData);
 
     return response.data;
-}
+};
+
+export const getAllUsers = async() => {
+    const response = await axios.get(`${base_url}/get-all-users`);
+    return response.data;
+};

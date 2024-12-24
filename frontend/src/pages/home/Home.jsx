@@ -3,9 +3,10 @@ import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/home/Header';
-import {Row,Col} from "react-bootstrap";
+import {Row,Col, Container} from "react-bootstrap";
 import Sidebar from '../../components/home/Sidebar';
 import Posts from '../../components/home/Posts';
+import Users from '../../components/home/Users';
 
 const Home = () => {
 
@@ -20,16 +21,25 @@ const Home = () => {
 
   return (
     <>
-    <Header/>
-    <Row>
-      <Col xl={3} lg={3} md={0} className='d-none d-lg-block' >
-      <Sidebar/>
-      </Col>
-      <Col xl={7} lg={7} md={9} className='p-md-4 p-sm-2 p-xl-0 p-lg-0 p-3' >
-      <Posts/>
-      </Col>
-      <Col xl={2} lg={2} md={3} ></Col>
-    </Row>
+      <Header />
+      <Container fluid className="mt-2">
+        <Row>
+          {/* Left Sidebar - Hidden on small screens */}
+          <Col xl={3} lg={3} className="d-none d-lg-block">
+            <Sidebar />
+          </Col>
+
+          {/* Posts (Main Content) */}
+          <Col xl={6} lg={6} md={12} sm={12} className="">
+            <Posts />
+          </Col>
+
+          {/* Right Sidebar (Users) - Hidden on small screens */}
+          <Col xl={3} lg={3} className="d-none d-lg-block">
+            <Users />
+          </Col>
+        </Row>
+      </Container>
     </>
   )
 }

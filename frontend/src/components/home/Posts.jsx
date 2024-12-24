@@ -20,7 +20,7 @@ const Posts = () => {
   }, [postError, postSuccess, dispatch]);
   return (
     <>
-      <div className="col-xl-8 col-lg-10 col-md-12 col-sm-12 mx-auto" >
+      <div className="col-xl-10 col-lg-10 col-md-12 col-sm-12 mx-auto" >
         <CreatePosts />
         {
           postLoading ? <PostLoader /> : (
