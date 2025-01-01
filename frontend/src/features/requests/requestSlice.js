@@ -1,5 +1,5 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
-import { addRequest } from "./requestService";
+import { addRequest, getMyRequests } from "./requestService";
 
 const initialState = {
     requests:[],
@@ -12,7 +12,16 @@ const initialState = {
 export const addFriendRequest = createAsyncThunk("add-friend-request",async(to_id,thunkAPI)=>{
     try {
         let token = thunkAPI.getState().user.user.token;
-        return addRequest(to_id,token);
+        return await addRequest(to_id,token);
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.response.data.error);
+    }
+})
+
+export const myRequestsData = createAsyncThunk("my-requests-data", async(_,thunkAPI)=>{
+    try {
+        let token = thunkAPI.getState().user.user.token;
+        return await getMyRequests(token)
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response.data.error);
     }
@@ -30,7 +39,8 @@ export const requestSlice = createSlice({
         }
     },
     extraReducers:(builder)=>{
-        builder.addCase(addFriendRequest.pending,(state,action)=>{
+        builder
+        .addCase(addFriendRequest.pending,(state,action)=>{
             state.requestLoading=true;
         })
         .addCase(addFriendRequest.rejected,(state,action)=>{
@@ -42,8 +52,20 @@ export const requestSlice = createSlice({
             state.requestError = false
             state.requestSuccess = true
             state.requestLoading = false
-            state.requests.push(action.payload)
+        })
+        .addCase(myRequestsData.pending,(state,action)=>{
+            state.requestLoading=true;
+        })
+        .addCase(myRequestsData.rejected,(state,action)=>{
+            state.requestError = true
+            state.requestLoading = false
             state.requestMessage = action.payload
+        })
+        .addCase(myRequestsData.fulfilled,(state,action)=>{
+            state.requestError = false
+            state.requestSuccess = true
+            state.requestLoading = false
+            state.requests = action.payload
         })
     }
 });

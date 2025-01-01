@@ -4,9 +4,11 @@ import UserList from './UserList'
 import {useDispatch, useSelector} from "react-redux";
 import {toast} from "react-hot-toast";
 import { getAllUsersData, userReset } from '../../../features/Users/userSlice';
+import { myRequestsData, requestReset } from '../../../features/requests/requestSlice';
 
 const NewRequests = () => {
     const {userLoading,userError,userSuccess,userMessage,allUsers} = useSelector((state)=>state.user);
+    const {requests} = useSelector((state)=>state.requests);
     const dispatch = useDispatch();
     useEffect(()=>{
         if(userError){
@@ -14,8 +16,15 @@ const NewRequests = () => {
         }
 
         dispatch(getAllUsersData())
+        dispatch(myRequestsData())
+        dispatch(requestReset())
         dispatch(userReset())
     },[]);
+
+    const filteredUsers = allUsers?.filter((item,index)=>{
+        return item?.id == requests[index]?.sendRequests[0]?.to
+    });
+
   return (
     <>
     <div className="d-flex pt-2 align-items-center justify-content-between px-1">
@@ -40,14 +49,14 @@ const NewRequests = () => {
                     </Typography>
                 </div>
                 <div className="d-flex gap-2 w-100">
-                    <Button variant="contained" className='w-100' >Confirm</Button>
-                    <Button variant="contained" className="dark-grey text-dark w-100" >Delete</Button>
+                    <Button sx={{ textTransform:"capitalize",width:"max-content" }} variant="contained" className=' w-75' >Confirm</Button>
+                    <Button sx={{ textTransform:"capitalize",width:"max-content" }} variant="contained" className="dark-grey text-dark w-75" >Delete</Button>
                 </div>
             </div>
         </div>
         <hr />
         {
-            allUsers?.map((item,index)=>{
+            filteredUsers?.map((item,index)=>{
                 return <UserList key={index} {...item} />
             })
         }

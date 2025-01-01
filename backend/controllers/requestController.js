@@ -26,6 +26,16 @@ const addFriend = asyncHandler(async(req,res)=>{
     });
     res.send(newRequest)
 }});
+
+const getMyRequests = asyncHandler(async(req,res)=>{
+    const user_id = req.user._id;
+    const myRequests = await requestmodel.find({
+        "sendRequests.from" : user_id
+    });
+    res.send(myRequests)
+})
+
 module.exports = {
     addFriend,
+    getMyRequests,
 };
