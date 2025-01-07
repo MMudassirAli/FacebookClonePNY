@@ -1,0 +1,150 @@
+/* body {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    background-color: #f4edff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+   */
+  .notification-popup {
+    max-width: 500px;
+    width: 90%;
+    padding: 16px;
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 8px 8px 8px rgba(205, 138, 255, 0.7);
+    position: relative;
+    background-color: black !important;
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #bbb;
+    background: #f8f4ff;
+    border: none;
+    height: 36px;
+    width: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .close-btn:hover {
+    background-color: #e0d4ff;
+    color: #38196b;
+    border: 1px solid #c7a4ff;
+  }
+  
+  .notification h2 {
+    font-size: 20px;
+    color: #38196b;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .notification-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+  
+  .notification-icon .icon-container {
+    height: 48px;
+    width: 48px;
+    font-size: 18px;
+    color: #fff;
+    background: linear-gradient(to bottom right, #9ab0ff, #eb73ff);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .notification-icon p {
+    margin-left: 12px;
+    font-size: 14px;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  
+  .button-container .btn {
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .button-container .btn-block {
+    border: 1px solid #ffb2b2;
+    color: #ff1212;
+  }
+  
+  .button-container .btn-block:hover {
+    background-color: #ffcccc;
+    border-color: #ff1212;
+    color: #a30000;
+  }
+  
+  .button-container .btn-allow {
+    border: 1px solid #9eebaf;
+    color: #0abe31;
+  }
+  
+  .button-container .btn-allow:hover {
+    background-color: #e0f7e8;
+    border-color: #0abe31;
+    color: #0a7b22;
+  }
+  
+  @media (max-width: 345px) {
+    .close-btn {
+      height: 30px;
+      width: 30px;
+      font-size: 18px;
+    }
+  
+    .notification h2 {
+      font-size: 18px;
+      margin-bottom: 16px;
+    }
+  
+    .notification-icon {
+      flex-direction: column;
+      margin-bottom: 16px;
+    }
+  
+    .notification-icon p {
+      margin-top: 8px;
+      font-size: 14px;
+    }
+  
+    .button-container {
+      flex-direction: column-reverse;
+    }
+  
+    .button-container .btn {
+      width: 100%;
+      font-size: 14px;
+    }
+  }
+  

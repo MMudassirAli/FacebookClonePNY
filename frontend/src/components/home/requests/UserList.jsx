@@ -1,14 +1,20 @@
 import { Button, Typography } from '@mui/material'
 import {useDispatch, useSelector} from "react-redux"
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { addFriendRequest, requestReset } from '../../../features/requests/requestSlice'
 import {toast} from "react-hot-toast";
 import { ProgressBar } from 'react-loader-spinner';
+import io from "socket.io-client";
+
+const socket = io.connect("http://localhost:3001")
 
 const UserList = ({f_name,l_name,image,_id}) => {
     const dispatch = useDispatch()
+    const {user} = useSelector((state)=>state.user)
+    const [btnState,setBtnState] = useState({text:"Add Friend",disabled:false})
     const [loading,setLoading] = useState(false);
     const {requestLoading,requestError,requestSuccess,requestMessage,requests} = useSelector((state)=>state.requests);
+    const btnRef = useRef()
 
     useEffect(()=>{
         if(requestError){
@@ -17,13 +23,16 @@ const UserList = ({f_name,l_name,image,_id}) => {
 
         dispatch(requestReset())
     },[requestError])
+
     const handleRequest = async(id) => {
         try {
             setLoading(true)
+            socket.emit("add_friend",{from_id:user._id,to_id:id})
             await dispatch(addFriendRequest(id))
-            toast.success("Friend Request Sent Successfully!")
+            // toast.success("Friend Request Sent Successfully!")
+            setBtnState({text:"Requested",disabled:true})
         } catch (error) {
-            toast.error("Request Cancelled!")
+            // toast.error("Request Cancelled!")
         }finally{
             setLoading(false)
         }
@@ -45,11 +54,12 @@ const UserList = ({f_name,l_name,image,_id}) => {
                     </Typography> */}
                 </div>
                 <div className="d-flex gap-2 w-100">
-                    <Button sx={{ textTransform:"capitalize",width:"max-content" }} onClick={()=>handleRequest(_id)} variant="contained" className=' w-75' >
+                    <Button ref={btnRef} sx={{ textTransform:"capitalize",width:"max-content" }} onClick={()=>handleRequest(_id)} variant="contained" className=' w-75' >
                         {
-                        loading ? (
+                        loading ? (<>
                         <ProgressBar
                             visible={true}
+                            disabled={btnState?.disabled}
                             height="25"
                             width="100"
                             color="#4fa94d"
@@ -57,7 +67,8 @@ const UserList = ({f_name,l_name,image,_id}) => {
                             wrapperStyle={{}}
                             wrapperClass=""
                             />
-                            ) : ("Add Friend")
+                            </>
+                            ) : (<>{btnState?.text}</>)
                         }
                     </Button>
                     <Button sx={{ textTransform:"capitalize",width:"max-content" }} variant="contained" className="dark-grey text-dark w-75" >Remove</Button>

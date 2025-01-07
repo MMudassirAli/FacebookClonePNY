@@ -7,6 +7,7 @@ import {Row,Col, Container} from "react-bootstrap";
 import Sidebar from '../../components/home/Sidebar';
 import Posts from '../../components/home/Posts';
 import Users from '../../components/home/Users';
+// import showRequestPopUp from '../../components/home/requests/showRequestPopUp'
 
 const Home = () => {
 
@@ -17,7 +18,9 @@ const Home = () => {
         navigate("/otp");
         toast.error("Please Verify your Account!");
       }
-    },[])
+    },[]);
+
+
 
   return (
     <>

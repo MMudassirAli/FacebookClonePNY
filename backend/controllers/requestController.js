@@ -11,12 +11,7 @@ const addFriend = asyncHandler(async(req,res)=>{
     });
 
     if(existingRequest){
-        // existingRequest.sendRequests = existingRequest.sendRequests.filter((request,index)=>{
-        //     return !(request.from.toString() == from.toString() && request.to.toString() == to.toString());
-        // });
         await requestmodel.deleteOne({_id : existingRequest._id});
-        // await existingRequest.save();
-        // res.send("Request Cancelled");
         res.status(400);
         throw new Error("Request Cancelled!");
     }else{
@@ -28,14 +23,29 @@ const addFriend = asyncHandler(async(req,res)=>{
 }});
 
 const getMyRequests = asyncHandler(async(req,res)=>{
-    const user_id = req.user._id;
+    const id = req.user._id;
     const myRequests = await requestmodel.find({
-        "sendRequests.from" : user_id
+        "sendRequests.from" : id
     });
     res.send(myRequests)
+});
+
+const rejectRequest = asyncHandler(async(req,res)=>{
+    const {from,to} = req.body
+    // console.log(from,to)
+    const findRequest = await requestmodel.findOne({
+        "sendRequests.from" : from,
+        "sendRequests.to" : to,
+    });
+
+    if(findRequest){
+        await findRequest.deleteOne({_id:findRequest._id})
+        res.send(findRequest)
+    }
 })
 
 module.exports = {
     addFriend,
     getMyRequests,
+    rejectRequest,
 };

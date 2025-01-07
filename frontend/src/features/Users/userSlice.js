@@ -93,7 +93,6 @@ export const userSlice = createSlice({
         })
         .addCase(getAllUsersData.fulfilled, (state,action)=>{
             state.userLoading = false
-            state.userError = false
             state.userSuccess = true
             state.allUsers = action.payload
         })
